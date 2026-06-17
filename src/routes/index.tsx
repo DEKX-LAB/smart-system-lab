@@ -3,7 +3,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import {
   ArrowRight, Bot, Cog, Database, Mail, Linkedin, MessageCircle,
-  Zap, Globe, Lock, Sparkles, Check, ExternalLink, Workflow,
+  Zap, Globe, Lock, Sparkles, Check, ExternalLink,
 } from "lucide-react";
 import { z } from "zod";
 import { WorkflowVisual } from "@/components/WorkflowVisual";
