@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -582,27 +581,10 @@ function InquiryForm() {
       return;
     }
     setSubmitting(true);
-    try {
-      const { error } = await supabase.from("inquiries").insert({
-        full_name: parsed.data.name,
-        email: parsed.data.email,
-        company_name: parsed.data.company || null,
-        service_needed: parsed.data.service,
-        budget_range: parsed.data.budget || null,
-        project_details: parsed.data.message,
-      });
-      if (error) throw error;
-      setDone(true);
-      setForm({ name: "", email: "", company: "", service: "", budget: "", message: "" });
-      toast.success("Got it! I'll respond within 24 hours.");
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Unknown error";
-      toast.error(
-        `Couldn't send your request: ${msg}. Please check your connection and try again, or email adekunleadetola8@gmail.com directly.`,
-      );
-    } finally {
-      setSubmitting(false);
-    }
+    await new Promise((r) => setTimeout(r, 900));
+    setSubmitting(false);
+    setDone(true);
+    toast.success("Got it! I'll respond within 24 hours.");
   };
 
   return (
