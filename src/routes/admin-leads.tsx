@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { Fragment, useState, type FormEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Lock, ChevronDown, ChevronRight, RefreshCw, LogOut } from "lucide-react";
 import { listInquiries, updateInquiryStatus, verifyAdmin } from "@/lib/admin.functions";
@@ -193,9 +193,8 @@ function AdminLeads() {
                 {rows?.map((r) => {
                   const isOpen = openId === r.id;
                   return (
-                    <>
+                    <Fragment key={r.id}>
                       <tr
-                        key={r.id}
                         className="border-t border-border hover:bg-surface/60 cursor-pointer"
                         onClick={() => setOpenId(isOpen ? null : r.id)}
                       >
@@ -237,7 +236,7 @@ function AdminLeads() {
                         </td>
                       </tr>
                       {isOpen && (
-                        <tr key={`${r.id}-detail`} className="border-t border-border bg-background/30">
+                        <tr className="border-t border-border bg-background/30">
                           <td></td>
                           <td colSpan={7} className="px-4 py-5">
                             <div className="text-xs uppercase tracking-widest text-muted-foreground">
@@ -249,7 +248,7 @@ function AdminLeads() {
                           </td>
                         </tr>
                       )}
-                    </>
+                    </Fragment>
                   );
                 })}
               </tbody>
