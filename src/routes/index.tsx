@@ -3,7 +3,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import {
   ArrowRight, Bot, Cog, Database, Mail, Linkedin, MessageCircle,
-  Zap, Globe, Lock, Sparkles, Check, ExternalLink,
+  Zap, Globe, Lock, Sparkles, Check, ExternalLink, Github,
 } from "lucide-react";
 import { z } from "zod";
 import { WorkflowVisual } from "@/components/WorkflowVisual";
@@ -262,8 +262,8 @@ const PROJECTS = [
     short: "A WhatsApp-based clinical automation system handling patient registration, staff alerts, AI query responses, and daily reporting — across 5 connected workflows.",
     stack: ["n8n", "Supabase", "PostgreSQL", "Google Gemini", "GreenAPI", "Lovable"],
     links: [
-      { label: "View Workflow", href: "#" },
-      { label: "View Dashboard", href: "#" },
+      { label: "View Workflow", href: "https://github.com/adekunlejnr/clinicflow-automation" },
+      { label: "View Dashboard", href: "https://pulse-flow-manage.lovable.app" },
     ],
     problem: "Staff were manually onboarding patients over WhatsApp, copying details into spreadsheets, and chasing daily reports.",
     solution: "Five connected n8n workflows running on a shared Supabase schema, with normalized phone numbers and parallel branches for patient, staff, and admin events.",
@@ -280,8 +280,7 @@ const PROJECTS = [
     short: "An AI agent that answers customer questions instantly on WhatsApp by retrieving real answers from a live knowledge base using vector search — with automatic fallback when traffic spikes.",
     stack: ["n8n", "Pinecone", "Google Gemini", "Groq", "Twilio", "Airtable", "Tally"],
     links: [
-      { label: "View Workflow", href: "#" },
-      { label: "Try the Demo", href: "#" },
+      { label: "View Workflow", href: "https://drive.google.com/drive/folders/1Oy5kPSOeX3uk12yFxjzoPEqU3iTb7Ogq?usp=sharing" },
     ],
     problem: "Support team was drowning in repetitive customer questions, with response times stretching to hours.",
     solution: "A retrieval-augmented agent on WhatsApp grounded in the client's docs, with Gemini as primary and Groq as automatic fallback when latency spikes.",
@@ -338,6 +337,8 @@ function Projects() {
                       <a
                         key={l.label}
                         href={l.href}
+                        target="_blank"
+                        rel="noreferrer"
                         className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/50 px-3 py-1.5 text-xs font-medium hover:border-primary/40 hover:text-primary transition-colors"
                       >
                         {l.label} <ExternalLink className="h-3 w-3" />
@@ -503,7 +504,7 @@ const CONTACTS = [
     value: "Quick chat",
     desc: "Fastest way to reach me.",
     cta: "Chat on WhatsApp",
-    href: "https://wa.me/PLACEHOLDER_NUMBER",
+    href: "https://wa.me/2348123401209",
   },
 ];
 
@@ -532,7 +533,7 @@ function ContactBlock() {
                 <p className="mt-1 text-xs text-muted-foreground">{c.desc}</p>
                 <a
                   href={c.href}
-                  target={c.href.startsWith("http") ? "_blank" : undefined}
+                  target="_blank"
                   rel="noreferrer"
                   className="mt-6 inline-flex items-center justify-center gap-1.5 rounded-md border border-border bg-background/50 px-4 py-2 text-sm font-medium hover:border-primary/50 hover:text-primary transition-colors"
                 >
@@ -711,7 +712,16 @@ function Footer() {
             <Linkedin className="h-4 w-4" />
           </a>
           <a
+            href="https://github.com/adekunlejnr"
+            target="_blank" rel="noreferrer"
+            aria-label="GitHub"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border hover:border-primary/50 hover:text-primary transition-colors"
+          >
+            <Github className="h-4 w-4" />
+          </a>
+          <a
             href="mailto:adekunleadetola8@gmail.com"
+            target="_blank" rel="noreferrer"
             aria-label="Email"
             className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border hover:border-primary/50 hover:text-primary transition-colors"
           >
