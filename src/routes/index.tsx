@@ -6,7 +6,7 @@ import {
   Zap, Globe, Lock, Sparkles, Check, ExternalLink, Github,
 } from "lucide-react";
 import { z } from "zod";
-import { WorkflowVisual } from "@/components/WorkflowVisual";
+import profileAsset from "@/assets/profile.png.asset.json";
 import { Reveal } from "@/components/Reveal";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -83,7 +83,7 @@ function Hero() {
       </div>
 
       <div className="mx-auto max-w-6xl px-5 sm:px-8 grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center w-full">
-        <div>
+        <div className="order-2 lg:order-1">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -142,16 +142,16 @@ function Hero() {
           </motion.div>
         </div>
 
-        <motion.div style={{ y }} className="relative">
-          <div className="relative rounded-2xl border border-border bg-surface/40 backdrop-blur-sm p-6 sm:p-8">
-            <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground font-mono">
-              <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                workflow.live
-              </span>
-              <span>6 nodes · 8 edges</span>
+        <motion.div style={{ y }} className="relative order-1 lg:order-2 flex justify-center">
+          <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[420px]">
+            <div className="aspect-square rounded-full overflow-hidden border-2 border-primary/50 shadow-2xl shadow-primary/20">
+              <img
+                src={profileAsset.url}
+                alt="Adetola Adekunle Ebenezer - AI Automation Specialist"
+                className="w-full h-full object-cover"
+                loading="eager"
+              />
             </div>
-            <WorkflowVisual className="w-full h-auto" />
           </div>
         </motion.div>
       </div>
