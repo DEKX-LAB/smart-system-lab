@@ -64,6 +64,7 @@ export type Database = {
           curr_user: string
         }[]
       }
+      whoami2: { Args: never; Returns: Json }
     }
     Enums: {
       [_ in never]: never
