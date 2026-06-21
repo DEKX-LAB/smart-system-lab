@@ -65,6 +65,7 @@ export type Database = {
         }[]
       }
       whoami2: { Args: never; Returns: Json }
+      whoami3: { Args: never; Returns: Json }
     }
     Enums: {
       [_ in never]: never
