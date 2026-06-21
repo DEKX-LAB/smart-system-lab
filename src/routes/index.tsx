@@ -636,6 +636,11 @@ function InquiryForm() {
           </div>
         ) : (
           <form onSubmit={onSubmit} className="mt-8 grid sm:grid-cols-2 gap-5">
+            {errorMsg && (
+              <div className="sm:col-span-2 rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                <strong className="font-semibold">Submission error:</strong> {errorMsg}
+              </div>
+            )}
             <Field label="Full Name *">
               <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
             </Field>
