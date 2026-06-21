@@ -572,6 +572,7 @@ function InquiryForm() {
   const submit = useServerFn(submitInquiry);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "", email: "", company: "", service: "", budget: "", message: "",
   });
