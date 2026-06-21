@@ -572,37 +572,42 @@ function InquiryForm() {
   const submit = useServerFn(submitInquiry);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "", email: "", company: "", service: "", budget: "", message: "",
   });
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setErrorMsg(null);
     const parsed = formSchema.safeParse(form);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? "Please check the form");
+      const msg = parsed.error.issues[0]?.message ?? "Please check the form";
+      setErrorMsg(msg);
+      toast.error(msg);
       return;
     }
     setSubmitting(true);
     try {
-      await submit({
-        data: {
-          full_name: parsed.data.name,
-          email: parsed.data.email,
-          company_name: parsed.data.company || null,
-          service_needed: parsed.data.service,
-          budget_range: parsed.data.budget || null,
-          project_details: parsed.data.message,
-        },
-      });
+      const payload = {
+        full_name: parsed.data.name,
+        email: parsed.data.email,
+        company_name: parsed.data.company || null,
+        service_needed: parsed.data.service,
+        budget_range: parsed.data.budget || null,
+        project_details: parsed.data.message,
+      };
+      console.log("[InquiryForm] submitting", payload);
+      const res = await submit({ data: payload });
+      console.log("[InquiryForm] success", res);
       setForm({ name: "", email: "", company: "", service: "", budget: "", message: "" });
       setDone(true);
       toast.success("Got it! I'll respond within 24 hours.");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Unknown error";
-      toast.error(
-        `Couldn't send your request: ${msg}. Please check your connection and try again, or email adekunleadetola8@gmail.com directly.`,
-      );
+      const msg = err instanceof Error ? err.message : JSON.stringify(err);
+      console.error("[InquiryForm] submit failed:", err);
+      setErrorMsg(msg);
+      toast.error(`Submission failed: ${msg}`);
     } finally {
       setSubmitting(false);
     }
@@ -631,6 +636,11 @@ function InquiryForm() {
           </div>
         ) : (
           <form onSubmit={onSubmit} className="mt-8 grid sm:grid-cols-2 gap-5">
+            {errorMsg && (
+              <div className="sm:col-span-2 rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                <strong className="font-semibold">Submission error:</strong> {errorMsg}
+              </div>
+            )}
             <Field label="Full Name *">
               <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
             </Field>
