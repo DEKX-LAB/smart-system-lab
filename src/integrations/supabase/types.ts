@@ -55,7 +55,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      whoami: {
+        Args: never
+        Returns: {
+          auth_role: string
+          auth_uid: string
+          curr_role: string
+          curr_user: string
+        }[]
+      }
+      whoami2: { Args: never; Returns: Json }
+      whoami3: { Args: never; Returns: Json }
     }
     Enums: {
       [_ in never]: never

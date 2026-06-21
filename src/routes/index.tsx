@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { submitInquiry } from "@/lib/inquiries.functions";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -568,6 +569,7 @@ const SERVICE_OPTIONS = [
 const BUDGET_OPTIONS = ["Under $500", "$500 – $1,500", "$1,500 – $5,000", "Let's discuss"];
 
 function InquiryForm() {
+  const submit = useServerFn(submitInquiry);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [form, setForm] = useState({
@@ -583,15 +585,16 @@ function InquiryForm() {
     }
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("inquiries").insert({
-        full_name: parsed.data.name,
-        email: parsed.data.email,
-        company_name: parsed.data.company || null,
-        service_needed: parsed.data.service,
-        budget_range: parsed.data.budget || null,
-        project_details: parsed.data.message,
+      await submit({
+        data: {
+          full_name: parsed.data.name,
+          email: parsed.data.email,
+          company_name: parsed.data.company || null,
+          service_needed: parsed.data.service,
+          budget_range: parsed.data.budget || null,
+          project_details: parsed.data.message,
+        },
       });
-      if (error) throw error;
       setForm({ name: "", email: "", company: "", service: "", budget: "", message: "" });
       setDone(true);
       toast.success("Got it! I'll respond within 24 hours.");
@@ -604,6 +607,7 @@ function InquiryForm() {
       setSubmitting(false);
     }
   };
+
 
   return (
     <Reveal>
