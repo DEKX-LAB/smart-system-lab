@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
+import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import type { Database } from "@/integrations/supabase/types";
 
 const inquirySchema = z.object({
   full_name: z.string().min(1).max(200),
@@ -13,10 +15,18 @@ const inquirySchema = z.object({
 export const submitInquiry = createServerFn({ method: "POST" })
   .inputValidator((d) => inquirySchema.parse(d))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import(
-      "@/integrations/supabase/client.server"
+    const supabase = createClient<Database>(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_PUBLISHABLE_KEY!,
+      {
+        auth: {
+          storage: undefined,
+          persistSession: false,
+          autoRefreshToken: false,
+        },
+      },
     );
-    const { error } = await supabaseAdmin.from("inquiries").insert({
+    const { error } = await supabase.from("inquiries").insert({
       full_name: data.full_name,
       email: data.email,
       company_name: data.company_name ?? null,
@@ -24,6 +34,9 @@ export const submitInquiry = createServerFn({ method: "POST" })
       budget_range: data.budget_range ?? null,
       project_details: data.project_details,
     });
-    if (error) throw new Error(error.message);
+    if (error) {
+      console.error("[submitInquiry] insert error:", error);
+      throw new Error(error.message);
+    }
     return { ok: true };
   });
