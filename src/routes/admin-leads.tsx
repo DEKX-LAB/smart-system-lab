@@ -129,6 +129,10 @@ function Dashboard({ password, onLogout }: { password: string; onLogout: () => v
   const list = useServerFn(listInquiries);
   const update = useServerFn(updateInquiryStatus);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   const { data, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ["inquiries"],
@@ -146,6 +150,47 @@ function Dashboard({ password, onLogout }: { password: string; onLogout: () => v
     onError: (err) =>
       toast.error(err instanceof Error ? err.message : "Update failed"),
   });
+
+  const filtered = (data ?? []).filter((row) => {
+    if (statusFilter !== "all" && row.status !== statusFilter) return false;
+    if (dateFrom && new Date(row.created_at) < new Date(dateFrom)) return false;
+    if (dateTo) {
+      const end = new Date(dateTo);
+      end.setHours(23, 59, 59, 999);
+      if (new Date(row.created_at) > end) return false;
+    }
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      const hay = `${row.full_name} ${row.email} ${row.company_name ?? ""}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const exportCsv = () => {
+    const headers = [
+      "Submitted", "Full Name", "Email", "Company", "Service", "Budget", "Status", "Project Details",
+    ];
+    const escape = (v: string) => `"${v.replace(/"/g, '""')}"`;
+    const rows = filtered.map((r) => [
+      new Date(r.created_at).toISOString(),
+      r.full_name,
+      r.email,
+      r.company_name ?? "",
+      r.service_needed,
+      r.budget_range ?? "",
+      r.status,
+      r.project_details,
+    ].map(escape).join(","));
+    const csv = [headers.map(escape).join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `inquiries-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   if (error) {
     return (
@@ -165,16 +210,20 @@ function Dashboard({ password, onLogout }: { password: string; onLogout: () => v
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-10">
-        <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
           <div>
             <h1 className="font-display font-bold text-3xl tracking-tight">
               Inquiries
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              {data ? `${data.length} total` : "Loading…"}
+              {data ? `${filtered.length} of ${data.length} total` : "Loading…"}
             </p>
           </div>
           <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={exportCsv} disabled={!filtered.length}>
+              <Download className="h-3.5 w-3.5" />
+              Export CSV
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -192,11 +241,34 @@ function Dashboard({ password, onLogout }: { password: string; onLogout: () => v
           </div>
         </div>
 
+        <div className="grid gap-3 sm:grid-cols-[1fr_180px_160px_160px] mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+            <Input
+              placeholder="Search name, email, company…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All statuses</SelectItem>
+              {STATUS_OPTIONS.map((s) => (
+                <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} aria-label="From date" />
+          <Input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} aria-label="To date" />
+        </div>
+
         {isLoading ? (
           <div className="text-muted-foreground text-sm">Loading inquiries…</div>
-        ) : !data || data.length === 0 ? (
+        ) : !filtered.length ? (
           <div className="rounded-xl border border-border bg-surface/40 p-12 text-center text-muted-foreground">
-            No inquiries yet.
+            {data?.length ? "No inquiries match your filters." : "No inquiries yet."}
           </div>
         ) : (
           <div className="rounded-xl border border-border bg-surface/40 overflow-hidden">
