@@ -283,7 +283,7 @@ function Dashboard({ password, onLogout }: { password: string; onLogout: () => v
               <span>Status</span>
             </div>
             <ul className="divide-y divide-border">
-              {data.map((row) => {
+              {filtered.map((row) => {
                 const isOpen = expanded === row.id;
                 return (
                   <li key={row.id}>
