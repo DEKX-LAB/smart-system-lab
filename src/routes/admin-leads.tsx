@@ -298,7 +298,12 @@ function Dashboard({ password, onLogout }: { password: string; onLogout: () => v
                           <ChevronRight className="h-4 w-4" />
                         )}
                       </span>
-                      <span className="font-medium truncate">{row.full_name}</span>
+                      <span className="font-medium truncate flex items-center gap-2">
+                        {row.full_name}
+                        {row.status === "new" && (
+                          <Badge className="h-5 px-1.5 text-[10px] uppercase tracking-wider">New</Badge>
+                        )}
+                      </span>
                       <span className="hidden md:block text-muted-foreground truncate">
                         {row.email}
                       </span>
