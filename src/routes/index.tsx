@@ -263,7 +263,7 @@ const PROJECTS = [
     short: "A WhatsApp-based clinical automation system handling patient registration, staff alerts, AI query responses, and daily reporting — across 5 connected workflows.",
     stack: ["n8n", "Supabase", "PostgreSQL", "Google Gemini", "GreenAPI", "Lovable"],
     links: [
-      { label: "View Workflow", href: "https://github.com/adekunlejnr/clinicflow-automation" },
+      { label: "View Workflow", href: "https://github.com/DEKX-LAB/clinicflow-automation" },
       { label: "View Dashboard", href: "https://pulse-flow-manage.lovable.app" },
     ],
     problem: "Staff were manually onboarding patients over WhatsApp, copying details into spreadsheets, and chasing daily reports.",
@@ -289,6 +289,26 @@ const PROJECTS = [
       "Vector search returning grounded, accurate answers",
       "Dual-model fallback for 99.9% uptime",
       "Automatic ticket logging in Airtable for unresolved queries",
+    ],
+  },
+  {
+    tag: "No-Code Event Management",
+    title: "EventHub",
+    status: "Live",
+    short: "A fully automated AI-powered event management portal built for teams managing registrations, attendee communications, and event logistics — without writing a single line of code.",
+    stack: ["n8n", "Airtable", "Softr", "Google Gemini", "AI Automation"],
+    links: [
+      { label: "View Project", href: "https://github.com/DEKX-LAB/EventHub-No-Code-Event-Management-Platform" },
+      { label: "Live Demo", href: "https://tambra7327.softr.app" },
+    ],
+    problem: "Event teams managing registrations and attendee communication manually across spreadsheets and email.",
+    solution: "A no-code event portal with automated registration flows, AI-powered responses, and real-time attendee management.",
+    winsLabel: "Key Features",
+    wins: [
+      "Automated attendee registration",
+      "AI query handling via Gemini",
+      "Real-time event dashboard",
+      "Team notifications",
     ],
   },
 ];
@@ -368,7 +388,7 @@ function Projects() {
                         <p className="mt-1 text-muted-foreground leading-relaxed">{p.solution}</p>
                       </div>
                       <div>
-                        <h4 className="font-display font-semibold text-foreground/90">Key Technical Wins</h4>
+                        <h4 className="font-display font-semibold text-foreground/90">{("winsLabel" in p && p.winsLabel) || "Key Technical Wins"}</h4>
                         <ul className="mt-2 space-y-1.5">
                           {p.wins.map((w) => (
                             <li key={w} className="flex gap-2 text-muted-foreground">
@@ -726,7 +746,7 @@ function Footer() {
             <Linkedin className="h-4 w-4" />
           </a>
           <a
-            href="https://github.com/adekunlejnr"
+            href="https://github.com/DEKX-LAB"
             target="_blank" rel="noreferrer"
             aria-label="GitHub"
             className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border hover:border-primary/50 hover:text-primary transition-colors"
