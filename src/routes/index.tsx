@@ -62,12 +62,21 @@ function Navbar() {
             </li>
           ))}
         </ul>
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
-        >
-          Let's Talk <ArrowRight className="h-3.5 w-3.5" />
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href={cvAsset.url}
+            download="Adetola_Adekunle_CV.pdf"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-border bg-transparent px-3.5 py-2 text-sm font-medium hover:bg-surface transition-colors"
+          >
+            <Download className="h-3.5 w-3.5" /> CV
+          </a>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
+          >
+            Let's Talk <ArrowRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
       </nav>
     </header>
   );
