@@ -406,6 +406,8 @@ function Projects() {
             );
           })}
         </div>
+
+        <AutomationSavingsCalculator />
       </div>
     </section>
   );
