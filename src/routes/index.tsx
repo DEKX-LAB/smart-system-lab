@@ -8,6 +8,7 @@ import {
 import { z } from "zod";
 import profileAsset from "@/assets/profile.png.asset.json";
 import { Reveal } from "@/components/Reveal";
+import { AutomationSavingsCalculator } from "@/components/AutomationSavingsCalculator";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -405,6 +406,8 @@ function Projects() {
             );
           })}
         </div>
+
+        <AutomationSavingsCalculator />
       </div>
     </section>
   );
