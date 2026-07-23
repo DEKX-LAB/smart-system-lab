@@ -3,10 +3,11 @@ import { useEffect, useState, type FormEvent } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import {
   ArrowRight, Bot, Cog, Database, Mail, Linkedin, MessageCircle,
-  Zap, Globe, Lock, Sparkles, Check, ExternalLink, Github,
+  Zap, Globe, Lock, Sparkles, Check, ExternalLink, Github, Download,
 } from "lucide-react";
 import { z } from "zod";
 import profileAsset from "@/assets/profile.png.asset.json";
+import cvAsset from "@/assets/Adetola_Adekunle_CV.pdf.asset.json";
 import { Reveal } from "@/components/Reveal";
 import { AutomationSavingsCalculator } from "@/components/AutomationSavingsCalculator";
 import { Input } from "@/components/ui/input";
@@ -61,12 +62,21 @@ function Navbar() {
             </li>
           ))}
         </ul>
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
-        >
-          Let's Talk <ArrowRight className="h-3.5 w-3.5" />
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href={cvAsset.url}
+            download="Adetola_Adekunle_CV.pdf"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-border bg-transparent px-3.5 py-2 text-sm font-medium hover:bg-surface transition-colors"
+          >
+            <Download className="h-3.5 w-3.5" /> CV
+          </a>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
+          >
+            Let's Talk <ArrowRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
       </nav>
     </header>
   );
@@ -140,6 +150,13 @@ function Hero() {
               className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-5 py-3 text-sm font-medium hover:bg-surface transition-colors"
             >
               Book a Free Call
+            </a>
+            <a
+              href={cvAsset.url}
+              download="Adetola_Adekunle_CV.pdf"
+              className="inline-flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-5 py-3 text-sm font-medium text-foreground hover:bg-primary/20 transition-colors"
+            >
+              <Download className="h-4 w-4" /> Download CV
             </a>
           </motion.div>
         </div>
