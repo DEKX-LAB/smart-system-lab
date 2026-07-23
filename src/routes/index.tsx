@@ -3,10 +3,11 @@ import { useEffect, useState, type FormEvent } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import {
   ArrowRight, Bot, Cog, Database, Mail, Linkedin, MessageCircle,
-  Zap, Globe, Lock, Sparkles, Check, ExternalLink, Github,
+  Zap, Globe, Lock, Sparkles, Check, ExternalLink, Github, Download,
 } from "lucide-react";
 import { z } from "zod";
 import profileAsset from "@/assets/profile.png.asset.json";
+import cvAsset from "@/assets/Adetola_Adekunle_CV.pdf.asset.json";
 import { Reveal } from "@/components/Reveal";
 import { AutomationSavingsCalculator } from "@/components/AutomationSavingsCalculator";
 import { Input } from "@/components/ui/input";
