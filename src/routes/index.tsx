@@ -151,6 +151,13 @@ function Hero() {
             >
               Book a Free Call
             </a>
+            <a
+              href={cvAsset.url}
+              download="Adetola_Adekunle_CV.pdf"
+              className="inline-flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-5 py-3 text-sm font-medium text-foreground hover:bg-primary/20 transition-colors"
+            >
+              <Download className="h-4 w-4" /> Download CV
+            </a>
           </motion.div>
         </div>
 
