@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS notify_inquiry_webhook_on_insert ON public.inquiries;
