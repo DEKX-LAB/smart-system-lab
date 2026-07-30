@@ -83,17 +83,6 @@ export type Database = {
         }
         Returns: boolean
       }
-      whoami: {
-        Args: never
-        Returns: {
-          auth_role: string
-          auth_uid: string
-          curr_role: string
-          curr_user: string
-        }[]
-      }
-      whoami2: { Args: never; Returns: Json }
-      whoami3: { Args: never; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
